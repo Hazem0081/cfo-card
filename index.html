@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Congratulations, CFO</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --gold-pale: #F5EBC8;
+    --deep: #0D0A06;
+    --ink: #1A150D;
+    --cream: #FAF6EE;
+  }
+
+  body {
+    background: var(--deep);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Cormorant Garamond', serif;
+    overflow: hidden;
+  }
+
+  /* Ambient background particles */
+  .bg {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 70%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: float var(--dur) ease-in-out var(--delay) infinite;
+  }
+
+  @keyframes float {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    20%  { opacity: 0.6; transform: translateY(-20px) scale(1); }
+    80%  { opacity: 0.3; transform: translateY(-80px) scale(0.8); }
+    100% { opacity: 0; transform: translateY(-120px) scale(0); }
+  }
+
+  /* Card */
+  .card {
+    position: relative;
+    z-index: 1;
+    width: min(480px, 92vw);
+    background: var(--cream);
+    padding: 56px 52px 52px;
+    text-align: center;
+    animation: reveal 1.2s cubic-bezier(0.16,1,0.3,1) both;
+    overflow: hidden;
+  }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Corner ornaments */
+  .card::before, .card::after,
+  .corner-bl, .corner-br {
+    content: '';
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-color: var(--gold);
+    border-style: solid;
+  }
+  .card::before  { top: 14px; left: 14px;  border-width: 1px 0 0 1px; }
+  .card::after   { top: 14px; right: 14px; border-width: 1px 1px 0 0; }
+  .corner-bl     { bottom: 14px; left: 14px;  border-width: 0 0 1px 1px; }
+  .corner-br     { bottom: 14px; right: 14px; border-width: 0 1px 1px 0; }
+
+  /* Inner border */
+  .inner-border {
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(201,168,76,0.25);
+    pointer-events: none;
+  }
+
+  /* Crown icon */
+  .crown {
+    display: block;
+    margin: 0 auto 18px;
+    width: 52px;
+    height: 36px;
+    animation: crownBob 3s ease-in-out 1.5s infinite;
+  }
+
+  @keyframes crownBob {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
+  }
+
+  /* Dividers */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .divider-dot  { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+  /* Text */
+  .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(15px, 4.5vw, 22px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+    letter-spacing: 1px;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .title span {
+    display: block;
+    font-size: clamp(11px, 3.2vw, 15px);
+    color: var(--gold);
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-top: 6px;
+  }
+
+  .message {
+    font-size: clamp(14px, 3.5vw, 17px);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.85;
+    animation: fadeUp 0.8s ease 0.9s both;
+  }
+
+  .message em {
+    font-style: italic;
+    color: #5a4a2a;
+  }
+
+  .signature-area {
+    margin-top: 28px;
+    animation: fadeUp 0.8s ease 1.1s both;
+  }
+
+  .signature-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--ink);
+  }
+
+  /* Gold shimmer on the title */
+  .shimmer {
+    background: linear-gradient(90deg, var(--ink) 0%, var(--gold) 40%, var(--gold-light) 60%, var(--ink) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear 2s infinite;
+  }
+
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--gold-pale);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    padding: 7px 18px;
+    text-transform: uppercase;
+    margin-top: 22px;
+    border: 1px solid var(--gold);
+    animation: fadeUp 0.8s ease 1.3s both;
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="bg" id="bg"></div>
+
+<div class="card">
+  <div class="inner-border"></div>
+  <div class="corner-bl"></div>
+  <div class="corner-br"></div>
+
+  <!-- Crown SVG -->
+  <svg class="crown" viewBox="0 0 52 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 30 L4 8 L17 20 L26 2 L35 20 L48 8 L48 30 Z" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M4 30 L48 30" stroke="#C9A84C" stroke-width="1.5"/>
+    <circle cx="26" cy="2"  r="2.5" fill="#C9A84C"/>
+    <circle cx="4"  cy="8"  r="2.5" fill="#C9A84C"/>
+    <circle cx="48" cy="8"  r="2.5" fill="#C9A84C"/>
+    <rect x="4" y="30" width="44" height="5" rx="0" fill="#C9A84C" opacity="0.25"/>
+  </svg>
+
+  <p class="label">With All My Love</p>
+
+  <h1 class="title">
+    <span class="shimmer">Congratulations</span>
+    <span>Chief Financial Officer</span>
+  </h1>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <p class="message">
+    To my incredible wife —<br><br>
+    You have always led with <em>brilliance, grace, and quiet strength.</em>
+    This title is not a surprise to me; it is simply the world
+    finally catching up to what I have always known.<br><br>
+    You are extraordinary, and you deserve <em>every bit</em> of this.
+  </p>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <div class="signature-area">
+    <p class="signature-label">Forever Proud</p>
+    <p class="signature">Your Husband ♡</p>
+  </div>
+
+  <div class="badge">✦ &nbsp; C · F · O &nbsp; ✦</div>
+</div>
+
+<script>
+  // Spawn floating particles
+  const bg = document.getElementById('bg');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*30}%;
+      --dur:${Math.random()*5+5}s;
+      --delay:${Math.random()*6}s;
+      opacity:0;
+    `;
+    bg.appendChild(p);
+  }
+</script>
+</body>
+</html>
